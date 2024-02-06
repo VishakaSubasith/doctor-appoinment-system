@@ -34,8 +34,10 @@ function classNames(...classes:any) {
 export default function Header() {
     const router = useRouter()
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-    const userName = localStorage.getItem('userName')
-    const email = localStorage.getItem('email')
+    let userName,email;
+    if(typeof window !== 'undefined')
+{     userName = localStorage.getItem('userName')
+     email = localStorage.getItem('email')}
 
     return (
         <header className="bg-white">

@@ -58,10 +58,12 @@ export default function CreateAppointmentPopUp({setOpenPopUp,isEdit}: { setOpenP
 
     const onSubmit = async () =>{
         try {
-            const userId = localStorage.getItem('_id')
-            await createAppointment(userId||"",name,notes,category,date,doctor)
-            toast.success('Appointment success')
-            setOpenPopUp(false)
+            if(typeof window !== 'undefined') {
+                const userId = localStorage.getItem('_id')
+                await createAppointment(userId || "", name, notes, category, date, doctor)
+                toast.success('Appointment success')
+                setOpenPopUp(false)
+            }
         }catch (e) {
             toast.error('something went wrong while creating appointment')
         }

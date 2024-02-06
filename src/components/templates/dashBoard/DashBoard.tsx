@@ -29,7 +29,7 @@ const DashBoard =() =>{
             }
         };
 
-        if (localStorage.getItem('_id'))
+        if (typeof window !== 'undefined' && localStorage.getItem('_id'))
         fetchAppointments();
         else router.push('/user/signIn')
     }, []);
