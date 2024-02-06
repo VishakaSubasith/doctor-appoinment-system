@@ -1,3 +1,4 @@
+import React from 'react';
 
 interface Props {
     placeholder?: string;
@@ -6,59 +7,72 @@ interface Props {
     name?: string;
     id?: string;
     validation?: { required?: boolean | string; maxLength?: number; pattern?: any };
-    onChange?: (file: FileList) => void;
+    onChange?: (value: string | number | FileList) => void;
     min?: number;
     max?: number;
     accept?: string;
     disabled?: boolean;
-    className?:string
+    className?: string;
 }
 
-const FormInput = ({
-                       placeholder = '',
-                       type = 'text',
-                       value,
-                       id,
-                       name,
-                       validation,
-                       onChange,
-                       min,
-                       max,
-                       className,
-                       accept,
-                       disabled
-                   }: Props) =>
-   name ? (
-        <input
-            className={
-            `focus:outline-none w-full py-3 px-2 border border-gray-300 bg-gray-100 ${className}`
+const FormInput: React.FC<Props> = ({
+                                        placeholder = '',
+                                        type = 'text',
+                                        value,
+                                        id,
+                                        name,
+                                        validation,
+                                        onChange,
+                                        min,
+                                        max,
+                                        className,
+                                        accept,
+                                        disabled
+                                    }) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
+        if (onChange) {
+            if (type === 'file') {
+                onChange(e.target?.files);
+            } else if (type === 'number') {
+                onChange(parseFloat(e.target.value));
+            } else {
+                onChange(e.target.value);
             }
-            type={type}
-            placeholder={placeholder}
-            value={value}
-            id={id}
-            min={min}
-            max={max}
-            accept={accept}
-            disabled={disabled}
-        />
-    ) : (
-        <input
-            className={
+        }
+    };
 
-                    'focus:outline-none w-full py-3 px-2 border border-gray-300 bg-gray-100'
-            }
-            type={type}
-            placeholder={placeholder}
-            value={value}
-            name={name}
-            id={id}
-            min={min}
-            max={max}
-            accept={accept}
-            disabled={disabled}
-            onChange={(e) => onChange && e?.target?.files?.length && onChange(e.target.files)}
-        />
+    return (
+        <>
+            {name ? (
+                <input
+                    className={`focus:outline-none w-full py-3 px-2 border border-gray-300 bg-gray-100 ${className}`}
+                    type={type}
+                    placeholder={placeholder}
+                    value={value}
+                    id={id}
+                    name={name}
+                    min={min}
+                    max={max}
+                    accept={accept}
+                    disabled={disabled}
+                    onChange={handleChange}
+                />
+            ) : (
+                <input
+                    className={`focus:outline-none w-full py-3 px-2 border border-gray-300 bg-gray-100 ${className}`}
+                    type={type}
+                    placeholder={placeholder}
+                    value={value}
+                    id={id}
+                    min={min}
+                    max={max}
+                    accept={accept}
+                    disabled={disabled}
+                    onChange={(e) => onChange && onChange(e.target.files)}
+                />
+            )}
+        </>
     );
+};
 
 export default FormInput;

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 interface Props {
     name: string;
@@ -12,6 +12,7 @@ interface Props {
     defaultValue?: string;
     style2?: boolean;
     disabled?: boolean;
+    onChange?: (value: string | number | FileList) => void;
 }
 const FormDropdown = ({
                           name,
@@ -21,9 +22,18 @@ const FormDropdown = ({
                           placeholder,
                           defaultValue = '',
                           style2,
-                          disabled = false
+                          disabled = false,
+                            onChange
                       }: Props) => {
     const [isValueSelected, setIsValueSelected] = useState(placeholder ? false : true);
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
+        if (onChange) {
+            setIsValueSelected(true);
+            onChange(e.target.value);
+        }
+
+        }
+
     return (
         <div>
 
@@ -36,9 +46,8 @@ const FormDropdown = ({
                     }
                     id={id}
                     defaultValue={defaultValue}
-                    onChange={(e) => {
-                        setIsValueSelected(true);
-                    }}
+                    onChange={handleChange}
+
                 >
                     {placeholder && (
                         <option disabled value="" className="">
@@ -51,23 +60,6 @@ const FormDropdown = ({
                         </option>
                     ))}
                 </select>
-
-                {/*<select*/}
-                {/*    className={*/}
-                {/*   `capitalize focus:outline-none w-full py-3 px-2 border border-gray-300 bg-gray-100 ${*/}
-                {/*                isValueSelected ? '' : 'text-gray-400'*/}
-                {/*            }`*/}
-                {/*    }*/}
-                {/*    name={name}*/}
-                {/*    id={id}*/}
-                {/*    disabled={disabled}*/}
-                {/*>*/}
-                {/*    {options?.map((option) => (*/}
-                {/*        <option key={option.label} value={option.value}>*/}
-                {/*            {option.label.replace(/([a-z])([A-Z])/g, `$1 $2`)}*/}
-                {/*        </option>*/}
-                {/*    ))}*/}
-                {/*</select>*/}
 
         </div>
     );

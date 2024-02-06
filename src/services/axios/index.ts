@@ -1,11 +1,11 @@
-
 import axios from 'axios';
 
-const endpoint = `https://${process.env.NEXT_PUBLIC_ENDPOINT}`;
+const endpoint =process.env.NEXT_PUBLIC_ENDPOINT;
 
+console.log(endpoint)
 const axiosService = axios.create({
   baseURL: endpoint,
   withCredentials: false
 });
 
-export default axiosService
+export default axiosService;

@@ -7,20 +7,50 @@ import Title from "@/components/commonComponents/Title";
 import FormDropdown from "@/components/commonComponents/Dropdown";
 import {useState} from "react";
 import {signUp} from "@/services/axios/user";
+import { toast } from 'react-hot-toast';
+import {useRouter} from "next/navigation";
 
 const SignUp = () =>{
+
+    const router = useRouter()
     const [email,setEmail] = useState<string>("")
     const [password,setPassword] = useState<string>("")
     const [username,setUsername] = useState<string>("")
     const [address,setAddress] = useState<string>("")
-    const [gender,setGender] = useState<string>("")
+    const [gender,setGender] = useState<string>("male")
     const [mobile,setMobile] = useState<string>("")
+    const [userType,setUserType] = useState<string>("user")
 
+    const handleEmailChange = (e: any) => {
+        setEmail(e);
+    };
+    const handlePasswordChange = (e: any) => {
+        setPassword(e);
+    };
+    const handleUserNameChange = (e: any) => {
+        setUsername(e);
+    };
+    const handleAddressChange = (e: any) => {
+        setAddress(e);
+    };
+    const handleGenderChange = (e: any) => {
+        setGender(e);
+    };
+    const handleUserTypeChange = (e: any) => {
+        setUserType(e);
+    };
+
+    const handleMobileChange = (e: any) => {
+        setMobile(e);
+    };
     const handleSignUp = async ()=>{
-
-        const result = await signUp(username,address,mobile,gender,email,password);
-        console.log(result)
-
+        try {
+            await signUp(username,address,mobile,gender,userType,email,password);
+            router.push('/user/signIn')
+            toast.success("Registration Successful")
+        }catch (e) {
+            toast.error('Something went wrong while registration')
+        }
     }
 
     return (
@@ -33,39 +63,48 @@ const SignUp = () =>{
                     </Title>
                     <FieldWrapper className="" label="user Name">
                         <FormInput type="text" name="userName"
-                                   onChange={(e:any)=>{setUsername(e.target.value)}}
+                                   onChange={handleUserNameChange}
                                    className="rounded bg-blue-300 border-blue-300 placeholder-blue-400"
                                    placeholder="Enter user Name"/>
                     </FieldWrapper>
                     <FieldWrapper className="" label="Contact Number">
                         <FormInput type="text" name="mobile"
-                                   onChange={(e:any)=>{setMobile(e.target.value)}}
+                                   onChange={handleMobileChange}
                                    className="rounded bg-blue-300 border-blue-300 placeholder-blue-400"
                                    placeholder="Enter contact Number"/>
                     </FieldWrapper>
                     <FieldWrapper className="" label="Gender">
                         <FormDropdown name="gender"
+                                      onChange={handleGenderChange}
+
 
 
                                       options={[{label:'Male' ,value:'male'} , {label:'Female', value:'female'}]}/>
                     </FieldWrapper>
+                    <FieldWrapper className="" label="User Type">
+                        <FormDropdown name="userType"
+
+                                      onChange={handleUserTypeChange}
+
+                                      options={[{label:'User' ,value:'user'} , {label:'Admin', value:'Admin'}]}/>
+                    </FieldWrapper>
                     <FieldWrapper className="" label="Email">
                         <FormInput type="text" name="email"
-                                   onChange={(e:any)=>{setEmail(e.target.value)}}
+                                   onChange={handleEmailChange}
 
                                    className="rounded bg-blue-300 border-blue-300 placeholder-blue-400"
                                    placeholder="Enter Email"/>
                     </FieldWrapper>
                     <FieldWrapper className="" label="Address">
                         <FormInput type="text" name="address"
-                                   onChange={(e:any)=>{setAddress(e.target.value)}}
+                                   onChange={handleAddressChange}
 
                                    className="rounded bg-blue-300 border-blue-300 placeholder-blue-400"
                                    placeholder="Enter Address"/>
                     </FieldWrapper>
                     <FieldWrapper className="" label="Password">
                         <FormInput type="password" name="password"
-                                   onChange={(e:any)=>{setPassword(e.target.value)}}
+                                   onChange={handlePasswordChange}
 
                                    className="rounded bg-blue-300 border-blue-300 placeholder-blue-400"
                                    placeholder="Enter Password"/>
