@@ -20,6 +20,10 @@ const appoinmentSchema  =  mongoose.Schema({
     dateAndTime :{
         type: String,
         required:true
+    },
+    doctorId: {
+        type: String,
+        required:true
     }
 });
 

@@ -7,7 +7,7 @@ const apoinmentServices = {
   createAppoinment: async ({ ...rest }, res: any) => {
     console.log('USERRRR', rest);
     try {
-      const { userId, name, description, category, dateAndTime } = rest;
+      const { userId, name, description, category, dateAndTime, doctorId } = rest;
       const getCategory = await categoryService.getCategories();
       console.log('category', category);
       console.log(
@@ -20,6 +20,7 @@ const apoinmentServices = {
       if (isCategoryExists) throw new Error('Category not found!');
 
       const newAppoinment = new appoinmentModel({
+        doctorId,
         userId,
         name,
         description,
@@ -44,6 +45,15 @@ const apoinmentServices = {
       console.log('Error', e);
       throw new Error(e);
     }
+  },
+  getAppoinments: async () => {
+    const response = await appoinmentModel.find({}).lean();
+    const appoinments = response?.map((appoinment: any) => ({
+      ...appoinment,
+      _id: appoinment._id.toString(),
+    }));
+    console.log('Appinments', appoinments);
+    return response;
   }
 };
 

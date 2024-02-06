@@ -14,7 +14,20 @@ router.post('/create', async (req: any, res: any) => {
 
 router.get('/get', async (req: any, res: any) => {
     try{
-        const response = await appoinmentService.getAppoinment(req.body);
+        console.log("REQQQQQ", req.query);
+        const { appoinmentId = null } = req.query
+        const response = await appoinmentService.getAppoinment(appoinmentId);
+        res.status(201).send({response:{message:'Appoinment successfully fetched'}, content: response})
+    }catch (e: any) {
+        console.log('Appoinment get error: ',e)
+        res.status(500).send({error:'Appoinment Create error',description:e.message })
+    }
+    res.send()
+});
+
+router.get('/get-all-appoinments', async (req: any, res: any) => {
+    try{
+        const response = await appoinmentService.getAppoinments();
         res.status(201).send({response:{message:'Appoinment successfully fetched'}, content: response})
     }catch (e: any) {
         console.log('Appoinment get error: ',e)

@@ -5,14 +5,15 @@ var { v4: uuidv4 } = require('uuid');
 const userControllers = {
   signUp: async ({ ...rest }, res: any) => {
     console.log('USERRRR', rest);
-    const { username, email, address, contactno, gender, password } = rest;
+    const { username, email, address, contactno, gender, password, userType } = rest;
       const newUser = new userModel({
         username,
         email,
         address,
         contactno,
         gender,
-        password
+        password,
+        userType
       }); 
       await newUser.save();    
   },

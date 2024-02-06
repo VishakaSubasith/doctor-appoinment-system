@@ -12,7 +12,7 @@ router.post('/register', async (req: any, res: any) => {
     res.send()
 });
 
-router.get('/login', async (req: any, res: any) => {
+router.post('/login', async (req: any, res: any) => {
     try{
         const user = await userService.singIn(req.body);
         res.status(201).send({response:{message:'Login success!'}, content: user})
