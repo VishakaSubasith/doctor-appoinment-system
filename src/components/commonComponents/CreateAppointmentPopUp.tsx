@@ -1,4 +1,4 @@
-import { Fragment, useRef, useState } from 'react'
+import {Fragment, useEffect, useRef, useState} from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import Title from "@/components/commonComponents/Title";
@@ -7,11 +7,67 @@ import FormInput from "@/components/commonComponents/FormInput";
 import FormDropdown from "@/components/commonComponents/Dropdown";
 import Button from "@/components/commonComponents/Button";
 import Link from "next/link";
+import {createAppointment, getAllAppointments} from "@/services/axios/appointment";
+import {toast} from "react-hot-toast";
+import {getAllCategories} from "@/services/axios/category";
 
-export default function PopUp({setOpenPopUp,isEdit}: { setOpenPopUp: any,isEdit:any }) {
+export default function CreateAppointmentPopUp({setOpenPopUp,isEdit}: { setOpenPopUp: any,isEdit:any }) {
     const [open, setOpen] = useState(true)
+    const [categories, setCategories] = useState([])
+
+    const [name, setName] = useState("")
+    const [category, setCategory] = useState("")
+    const [doctor, setDoctor] = useState("")
+    const [notes, setNotes] = useState("")
+    const [date, setDate] = useState("")
+
+    const handleNameChange = (e: any) => {
+        setName(e);
+    };
+
+    const handleCategoryChange = (e: any) => {
+        setCategory(e);
+    };
+    const handleDoctorChange = (e: any) => {
+        setDoctor(e);
+    };
+
+    const handleNotesChange = (e: any) => {
+        setNotes(e);
+    };
+    const handleDateChange = (e: any) => {
+        setDate(e);
+    };
 
     const cancelButtonRef = useRef(null)
+
+
+    useEffect(() => {
+        const fetchAppointments = async () => {
+            try {
+                const result = await getAllCategories();
+                console.log(result);
+                setCategories(result?.content);
+                setCategory(result.content[0]._id)
+            } catch (error) {
+                console.error("Error fetching categories:", error);
+            }
+        };
+
+        fetchAppointments();    }, []);
+
+    const onSubmit = async () =>{
+        try {
+            const userId = localStorage.getItem('_id')
+            await createAppointment(userId||"",name,notes,category,date,doctor)
+            toast.success('Appointment success')
+            setOpenPopUp(false)
+        }catch (e) {
+            toast.error('something went wrong while creating appointment')
+        }
+
+
+    }
 
     return (
         <Transition.Root show={open} as={Fragment}>
@@ -50,25 +106,22 @@ export default function PopUp({setOpenPopUp,isEdit}: { setOpenPopUp: any,isEdit:
                                                 <div className="w-full">
                                                     <FieldWrapper className="" label="Name">
                                                         <FormInput type="text" name="name"
-                                                                   onChange={(e: any) => {
-                                                                       // setUsername(e.target.value)
-                                                                   }}
+                                                                   onChange={handleNameChange}
                                                                    className="rounded bg-blue-300 border-blue-300 "
                                                                    placeholder="Enter Name"/>
                                                     </FieldWrapper>
                                                     <FieldWrapper className="" label="Category">
                                                         <FormDropdown name="category"
+                                                                      onChange={handleCategoryChange}
 
 
-                                                                      options={[{
-                                                                          label: 'Male',
-                                                                          value: 'male'
-                                                                      }, {label: 'Female', value: 'female'}]}/>
+                                                                      options={categories && categories?.map((category:any)=>{
+                                                                          return {label: category.category,value:category._id}
+                                                                      })}/>
                                                     </FieldWrapper>
                                                     <FieldWrapper className="" label="Doctor Name">
                                                         <FormDropdown name="doctorName"
-
-
+                                                                      onChange={handleDoctorChange}
                                                                       options={[{
                                                                           label: 'Male',
                                                                           value: 'male'
@@ -76,31 +129,18 @@ export default function PopUp({setOpenPopUp,isEdit}: { setOpenPopUp: any,isEdit:
                                                     </FieldWrapper>
                                                     <FieldWrapper className="" label="Notes">
                                                         <FormInput type="text" name="notes"
-                                                                   onChange={(e: any) => {
-                                                                       // setEmail(e.target.value)
-                                                                   }}
+                                                                   onChange={handleNotesChange}
 
                                                                    className="rounded bg-blue-300 border-blue-300 "
                                                                    placeholder="Enter Notes"/>
                                                     </FieldWrapper>
                                                     <FieldWrapper className="" label="Date">
                                                         <FormInput type="date" name="date"
-                                                                   onChange={(e: any) => {
-                                                                       // setAddress(e.target.value)
-                                                                   }}
+                                                                   onChange={handleDateChange}
 
                                                                    className="rounded bg-blue-300 border-blue-300 "
                                                                    placeholder="Enter Date"/>
                                                     </FieldWrapper>
-                                                    {/*<div className="flex flex-col items-center mt-4">*/}
-                                                    {/*    <Button*/}
-                                                    {/*        className="rounded border-2 border-slate-950 bg-slate-950 w-4/12">*/}
-                                                    {/*       Save*/}
-                                                    {/*    </Button>*/}
-                                                    {/*    <p className="mt-2">Already have an account? <Link*/}
-                                                    {/*        href="/user/signIn"*/}
-                                                    {/*        className="text-blue-700"> Sign in</Link></p>*/}
-                                                    {/*</div>*/}
                                                 </div>
                                             </div>
                                         </div>
@@ -110,7 +150,7 @@ export default function PopUp({setOpenPopUp,isEdit}: { setOpenPopUp: any,isEdit:
                                     <button
                                         type="button"
                                         className="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:ml-3 sm:w-auto"
-                                        onClick={() => setOpenPopUp(false)}
+                                        onClick={() => onSubmit()}
                                     >
                                         Save {isEdit ? 'Changes' :''}
                                     </button>
