@@ -23,4 +23,15 @@ router.post('/login', async (req: any, res: any) => {
     res.send()
 });
 
+router.get('/user-by-type', async (req: any, res: any) => {
+    try{
+        const userList = await userService.getUsersByType(req.query);
+        res.status(201).send({response:{message:'Login success!'}, content: userList})
+    }catch (e: any) {
+        console.log('Signup error: ',e)
+        res.status(500).send({error:'Login error',description:e.message })
+    }
+    res.send()
+});
+
 module.exports = router; 
