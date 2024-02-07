@@ -31,13 +31,9 @@ const FormInput: React.FC<Props> = ({
                                     }) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
         if (onChange) {
-            if (type === 'file') {
-                onChange(e.target?.files);
-            } else if (type === 'number') {
+
                 onChange(parseFloat(e.target.value));
-            } else {
-                onChange(e.target.value);
-            }
+
         }
     };
 
@@ -68,7 +64,7 @@ const FormInput: React.FC<Props> = ({
                     max={max}
                     accept={accept}
                     disabled={disabled}
-                    onChange={(e) => onChange && onChange(e.target.files)}
+                    // onChange={(e) => onChange && onChange(e.target.files)}
                 />
             )}
         </>

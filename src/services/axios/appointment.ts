@@ -9,5 +9,22 @@ const getAllAppointments = async () => {
         throw e.response;
     }
 };
+const createAppointment = async (userId:string,name:string,description:string,category:string,dateAndTime:string,doctorId:string) => {
+    try {
+        console.log("userId",userId)
+        const response = await axiosService.post(`appoinment/create`,{
+            userId,
+            name,
+            description,
+            category,
+            dateAndTime,
+            doctorId
+        });
+        return response.data;
+    } catch (e: any) {
+        console.log(e)
+        throw e.response;
+    }
+};
 
-export {getAllAppointments}
+export {getAllAppointments,createAppointment}
