@@ -10,10 +10,12 @@ import Link from "next/link";
 import {createAppointment, getAllAppointments} from "@/services/axios/appointment";
 import {toast} from "react-hot-toast";
 import {getAllCategories} from "@/services/axios/category";
+import {getAllDoctors} from "@/services/axios/doctor";
 
-export default function CreateAppointmentPopUp({setOpenPopUp,isEdit}: { setOpenPopUp: any,isEdit:any }) {
+export default function CreateAppointmentPopUp({setOpenPopUp,isEdit,setChange}: { setOpenPopUp: any,isEdit:any,setChange:any }) {
     const [open, setOpen] = useState(true)
     const [categories, setCategories] = useState([])
+    const [doctors, setDoctors] = useState([])
 
     const [name, setName] = useState("")
     const [category, setCategory] = useState("")
@@ -46,15 +48,19 @@ export default function CreateAppointmentPopUp({setOpenPopUp,isEdit}: { setOpenP
         const fetchAppointments = async () => {
             try {
                 const result = await getAllCategories();
+                const doctors = await getAllDoctors();
                 console.log(result);
                 setCategories(result?.content);
-                setCategory(result.content[0]._id)
+                setDoctors(doctors.content);
+                setCategory(result.content[0]._id);
+                setDoctor(doctors?.content[0].userId);
             } catch (error) {
-                console.error("Error fetching categories:", error);
+                console.error("Error fetching data:", error);
             }
         };
 
-        fetchAppointments();    }, []);
+        fetchAppointments();
+        }, []);
 
     const onSubmit = async () =>{
         try {
@@ -62,6 +68,7 @@ export default function CreateAppointmentPopUp({setOpenPopUp,isEdit}: { setOpenP
                 const userId = localStorage.getItem('_id')
                 await createAppointment(userId || "", name, notes, category, date, doctor)
                 toast.success('Appointment success')
+                setChange(true)
                 setOpenPopUp(false)
             }
         }catch (e) {
@@ -118,16 +125,15 @@ export default function CreateAppointmentPopUp({setOpenPopUp,isEdit}: { setOpenP
 
 
                                                                       options={categories && categories?.map((category:any)=>{
-                                                                          return {label: category.category,value:category._id}
+                                                                          return {label: category?.category,value:category?.categoryId}
                                                                       })}/>
                                                     </FieldWrapper>
                                                     <FieldWrapper className="" label="Doctor Name">
                                                         <FormDropdown name="doctorName"
                                                                       onChange={handleDoctorChange}
-                                                                      options={[{
-                                                                          label: 'Male',
-                                                                          value: 'male'
-                                                                      }, {label: 'Female', value: 'female'}]}/>
+                                                                      options={doctors && doctors?.map((doctor:any)=>{
+                                                                          return {label: doctor?.username,value:doctor?.userId}
+                                                                      })}/>
                                                     </FieldWrapper>
                                                     <FieldWrapper className="" label="Notes">
                                                         <FormInput type="text" name="notes"

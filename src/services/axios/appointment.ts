@@ -9,14 +9,14 @@ const getAllAppointments = async () => {
         throw e.response;
     }
 };
-const createAppointment = async (userId:string,name:string,description:string,category:string,dateAndTime:string,doctorId:string) => {
+const createAppointment = async (userId:string,name:string,description:string,categoryId:string,dateAndTime:string,doctorId:string) => {
     try {
         console.log("userId",userId)
         const response = await axiosService.post(`appoinment/create`,{
             userId,
             name,
             description,
-            category,
+            categoryId,
             dateAndTime,
             doctorId
         });

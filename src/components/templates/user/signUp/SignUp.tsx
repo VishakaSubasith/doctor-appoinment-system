@@ -39,7 +39,6 @@ const SignUp = () =>{
     const handleUserTypeChange = (e: any) => {
         setUserType(e);
     };
-
     const handleMobileChange = (e: any) => {
         setMobile(e);
     };
@@ -76,48 +75,38 @@ const SignUp = () =>{
                     <FieldWrapper className="" label="Gender">
                         <FormDropdown name="gender"
                                       onChange={handleGenderChange}
-
-
-
                                       options={[{label:'Male' ,value:'male'} , {label:'Female', value:'female'}]}/>
                     </FieldWrapper>
                     <FieldWrapper className="" label="User Type">
                         <FormDropdown name="userType"
-
                                       onChange={handleUserTypeChange}
-
                                       options={[{label:'User' ,value:'user'} , {label:'Admin', value:'Admin'}]}/>
                     </FieldWrapper>
                     <FieldWrapper className="" label="Email">
                         <FormInput type="text" name="email"
                                    onChange={handleEmailChange}
-
                                    className="rounded bg-blue-300 border-blue-300 placeholder-blue-400"
                                    placeholder="Enter Email"/>
                     </FieldWrapper>
                     <FieldWrapper className="" label="Address">
                         <FormInput type="text" name="address"
                                    onChange={handleAddressChange}
-
                                    className="rounded bg-blue-300 border-blue-300 placeholder-blue-400"
                                    placeholder="Enter Address"/>
                     </FieldWrapper>
                     <FieldWrapper className="" label="Password">
                         <FormInput type="password" name="password"
                                    onChange={handlePasswordChange}
-
                                    className="rounded bg-blue-300 border-blue-300 placeholder-blue-400"
                                    placeholder="Enter Password"/>
                     </FieldWrapper>
                     <div className="flex flex-col items-center mt-4">
                         <Button className="rounded border-2 border-slate-950 bg-slate-950 w-4/12" onClick={()=>handleSignUp()}>Register</Button>
-                        <p className="mt-2">Already have an account? <Link href="/user/signIn"
-                                                                         className="text-blue-700"> Sign in</Link></p>
+                        <div className="mt-2">Already have an account? <Link href="/user/signIn" className="text-blue-700"> Sign in</Link></div>
                     </div>
                 </div>
             </form>
         </div>
     );
-
 }
 export default SignUp;

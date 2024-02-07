@@ -22,7 +22,6 @@ const SignIn = () => {
     };
 
     const handleSignIn = async () => {
-        console.log("email,password===>>>", email, password);
         const result = await signIn(email, password);
         if (result.content) {
             router.push('/dashBoard')

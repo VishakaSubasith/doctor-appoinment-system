@@ -24,10 +24,10 @@ const Table = ({setOpenDeletePopUp,columns,data}:{setOpenDeletePopUp:any,columns
                                    {item.name}
                                </th>
                                <td className="px-6 py-4">
-                                   {item.category}
+                                   {item.category.category}
                                </td>
                                <td className="px-6 py-4">
-                                   {item.doctorId}
+                                   {item.doctor.username}
                                </td>
                                <td className="px-6 py-4">
                                    {item.description}

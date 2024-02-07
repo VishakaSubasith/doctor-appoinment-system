@@ -32,7 +32,7 @@ const FormInput: React.FC<Props> = ({
     const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
         if (onChange) {
 
-                onChange(parseFloat(e.target.value));
+                onChange(e.target.value);
 
         }
     };

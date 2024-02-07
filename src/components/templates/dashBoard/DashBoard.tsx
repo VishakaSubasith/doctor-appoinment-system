@@ -1,13 +1,11 @@
 'use client'
 import Header from "@/components/commonComponents/Header";
-import exp from "node:constants";
 import Table from "@/components/commonComponents/Table";
 import Button from "@/components/commonComponents/Button";
 import CreateAppointmentPopUp from "@/components/commonComponents/CreateAppointmentPopUp";
 import {useEffect, useState} from "react";
 import Warning from "@/components/commonComponents/Waning";
 import {getAllAppointments} from "@/services/axios/appointment";
-import {toast} from "react-hot-toast";
 import {useRouter} from "next/navigation";
 
 const DashBoard =() =>{
@@ -16,6 +14,7 @@ const DashBoard =() =>{
     const [openDeletePopUp, setOpenDeletePopUp] = useState(false)
     const [isEdit, setIsEdit] = useState(false)
     const [appointments, setAppointments] = useState<any>()
+    const [change, setChange] = useState<any>()
 
 
     useEffect(() => {
@@ -32,11 +31,11 @@ const DashBoard =() =>{
         if (typeof window !== 'undefined' && localStorage.getItem('_id'))
         fetchAppointments();
         else router.push('/user/signIn')
-    }, []);
+    }, [change]);
 
-    useEffect(() => {
-
-    }, [appointments]);
+    // useEffect(() => {
+    //
+    // }, [appointments]);
 
     return (
         <div className="w-screen h-screen">
@@ -51,7 +50,7 @@ const DashBoard =() =>{
                 />
             </div>
             {
-                openPopUp ?  <CreateAppointmentPopUp setOpenPopUp={setOpenPopUp} isEdit={isEdit}/> : <></>
+                openPopUp ?  <CreateAppointmentPopUp setOpenPopUp={setOpenPopUp} isEdit={isEdit} setChange={setChange}/> : <></>
             }
             {
                 openDeletePopUp ?  <Warning setOpenDeletePopUp={setOpenDeletePopUp}/> : <></>
