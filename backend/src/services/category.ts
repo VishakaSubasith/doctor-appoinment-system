@@ -7,6 +7,7 @@ const categoryServices = {
     console.log('Category', rest);
     const { category, description} = rest;
     const newAppoinment = new categoryModel({
+      categoryId: uuidv4(),
       category,
       description
     });
@@ -14,11 +15,13 @@ const categoryServices = {
   },
   getCategories: async () => {
     const response = await categoryModel.find({}).lean();
-    const categories = response?.map((category: any) => ({
-      ...category,
-      _id: category._id.toString(),
-    }));
-    console.log('getCategories', categories);
+
+    console.log('getCategories response', response);
+    return response;
+  },
+  getCategoryById: async (categoryId: string) => {
+    const response = await categoryModel.findOne({categoryId: categoryId});
+    console.log('getCategory', response);
     return response;
   }
 };
