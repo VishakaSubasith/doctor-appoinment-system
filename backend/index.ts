@@ -3,6 +3,7 @@ const path = require('path');
 const userRouter = require('./src/routes/user/index');
 const appoinmentRouter = require('./src/routes/appoinment/index');
 const categoryRouter = require('./src/routes/category/index');
+const cors = require('cors')
 
 const conn = require('./src/db/connection');
 const mongooseConnect = require('mongoose')
@@ -11,6 +12,7 @@ const app = express();
 const port = process.env.PORT || 8080;
 const bodyParser = require('body-parser')
 
+app.use(cors())
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json());
 

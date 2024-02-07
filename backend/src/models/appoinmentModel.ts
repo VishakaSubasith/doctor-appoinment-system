@@ -1,6 +1,10 @@
 var mongoose = require('mongoose');
 
 const appoinmentSchema  =  mongoose.Schema({
+    appoinmentId: {
+        type : String,
+        required : true
+    },
     userId : {
         type : String,
         required : true
@@ -13,11 +17,15 @@ const appoinmentSchema  =  mongoose.Schema({
         type: String,
         required:false
     },
-    category :{
+    categoryId :{
         type: String,
         required:true
     },
     dateAndTime :{
+        type: String,
+        required:true
+    },
+    doctorId: {
         type: String,
         required:true
     }
