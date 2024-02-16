@@ -23,8 +23,10 @@ const SignIn = () => {
 
     const handleSignIn = async () => {
         const result = await signIn(email, password);
+        console.log("Resss", result);
         if (result.content) {
-            router.push('/dashBoard')
+            if(result?.content?.userType === 'Admin') router.push('/adminDashboard')
+            else router.push('/dashBoard')
             toast.success('Login Successful')
         }
         else {

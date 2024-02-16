@@ -21,19 +21,23 @@ const Table = ({setOpenDeletePopUp,columns,data}:{setOpenDeletePopUp:any,columns
                         data?.map((item:any)=> {
                            return <tr className="bg-white border-b  dark:border-gray-700">
                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                   {item.name}
+                                   {item.col1 ? item.col1 : item?.name}
                                </th>
                                <td className="px-6 py-4">
-                                   {item.category.category}
+                             
+                                   {item?.col2 ? item.col2 : item?.category?.category}
                                </td>
                                <td className="px-6 py-4">
-                                   {item.doctor.username}
+                            
+                                   {item?.col3 ? item.col3 : item?.doctor?.username}
                                </td>
                                <td className="px-6 py-4">
-                                   {item.description}
+                                
+                                   {item?.col4 ? item.col4 : item?.description}
                                </td>
                                <td className="px-6 py-4">
-                                   {item.dateAndTime}
+                         
+                                   {item?.col5 ? item.col5 : item?.dateAndTime}
                                </td>
                                {/*<td className="px-6 py-4 flex ">*/}
                                {/*    <a href="#"*/}
