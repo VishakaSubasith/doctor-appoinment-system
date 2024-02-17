@@ -41,7 +41,7 @@ const FormInput: React.FC<Props> = ({
         <>
             {name ? (
                 <input
-                    className={`focus:outline-none w-full py-3 px-2 border border-gray-300 bg-gray-100 ${className}`}
+                    className={`focus:outline-none w-full py-3 px-2 border border-gray-300 bg-gray-100 text-black ${className}`}
                     type={type}
                     placeholder={placeholder}
                     value={value}

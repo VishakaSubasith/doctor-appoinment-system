@@ -11,7 +11,7 @@ const Spinner = ({ size = 25, spinnerClass, color }: Props) => (
         <svg
             aria-hidden="true"
             className={`text-gray-200 animate-spin dark:text-white ${
-                color ? color : 'fill-serv-purple'
+                color ? color : 'fill-black'
             } m-auto ${spinnerClass}`}
             viewBox="0 0 100 101"
             fill="none"

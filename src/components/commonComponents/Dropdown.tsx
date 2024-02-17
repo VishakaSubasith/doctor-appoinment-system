@@ -40,9 +40,7 @@ const FormDropdown = ({
                 <select
                     disabled={disabled}
                     className={
-                    `capitalize focus:outline-none w-full pt-3 pb-4 px-2 border border-gray-300 bg-gray-100 ${
-                                isValueSelected ? '' : 'text-gray-400'
-                            }`
+                    `capitalize focus:outline-none w-full pt-3 pb-4 px-2 border border-gray-300 bg-gray-100 text-black `
                     }
                     id={id}
                     defaultValue={defaultValue}

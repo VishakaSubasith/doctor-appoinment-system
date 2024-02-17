@@ -8,11 +8,13 @@ import Title from "@/components/commonComponents/Title";
 import { signIn } from "@/services/axios/user";
 import {useRouter} from "next/navigation";
 import {toast} from "react-hot-toast";
+import Spinner from "@/components/commonComponents/Spinner";
 
 const SignIn = () => {
     const router = useRouter();
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const handleEmailChange = (e: any) => {
         setEmail(e);
@@ -22,16 +24,22 @@ const SignIn = () => {
     };
 
     const handleSignIn = async () => {
+        if ( !email ||!password) {
+            toast.error('Invalid login credentials')
+            return
+        }
+        setIsLoading(true)
         const result = await signIn(email, password);
         console.log("Resss", result);
         if (result.content) {
-            if(result?.content?.userType === 'Admin') router.push('/adminDashboard')
+            if(result?.content?.userType === 'Admin') router.push('/admin')
             else router.push('/dashBoard')
             toast.success('Login Successful')
         }
         else {
             toast.error('Invalid Credentials')
         }
+        setIsLoading(false)
     };
 
     return (
@@ -48,7 +56,7 @@ const SignIn = () => {
                         <FormInput type="password" name="password" onChange={handlePasswordChange} className="rounded bg-blue-300 border-blue-300 placeholder-blue-400" placeholder="Enter Password" />
                     </FieldWrapper>
                     <div className="flex flex-col items-center mt-4">
-                        <Button className="rounded border-2 border-slate-950 bg-slate-950 w-4/12" onClick={handleSignIn}>Sign In</Button>
+                        <Button className="rounded border-2 border-slate-950 bg-slate-950 w-4/12" onClick={handleSignIn}>{isLoading? <Spinner/> :'Sign In'}</Button>
                         <p className="mt-2">Do not have an account? <Link href="/user/signUp" className="text-blue-700"> Sign Up</Link></p>
                     </div>
                 </div>

@@ -9,6 +9,7 @@ import {useState} from "react";
 import {signUp} from "@/services/axios/user";
 import { toast } from 'react-hot-toast';
 import {useRouter} from "next/navigation";
+import Spinner from "@/components/commonComponents/Spinner";
 
 const SignUp = () =>{
 
@@ -20,6 +21,7 @@ const SignUp = () =>{
     const [gender,setGender] = useState<string>("male")
     const [mobile,setMobile] = useState<string>("")
     const [userType,setUserType] = useState<string>("user")
+    const [isLoading,setIsLoading] = useState<boolean>(false)
 
     const handleEmailChange = (e: any) => {
         setEmail(e);
@@ -43,13 +45,21 @@ const SignUp = () =>{
         setMobile(e);
     };
     const handleSignUp = async ()=>{
+        if (!username || !address||!mobile || !gender || !userType || !email ||!password) {
+            toast.error('Please fill all required fields')
+            return
+        }
         try {
-            await signUp(username,address,mobile,gender,userType,email,password);
+            setIsLoading(true)
+            const result = await signUp(username,address,mobile,gender,userType,email,password);
+            console.log("result",result)
             router.push('/user/signIn')
             toast.success("Registration Successful")
         }catch (e) {
+            console.log(e)
             toast.error('Something went wrong while registration')
         }
+        setIsLoading(false)
     }
 
     return (
@@ -101,7 +111,7 @@ const SignUp = () =>{
                                    placeholder="Enter Password"/>
                     </FieldWrapper>
                     <div className="flex flex-col items-center mt-4">
-                        <Button className="rounded border-2 border-slate-950 bg-slate-950 w-4/12" onClick={()=>handleSignUp()}>Register</Button>
+                        <Button className="rounded border-2 border-slate-950 bg-slate-950 w-4/12" onClick={()=>handleSignUp()}>{isLoading? <Spinner/> :'Register'}</Button>
                         <div className="mt-2">Already have an account? <Link href="/user/signIn" className="text-blue-700"> Sign in</Link></div>
                     </div>
                 </div>

@@ -11,9 +11,11 @@ import {createAppointment, getAllAppointments} from "@/services/axios/appointmen
 import {toast} from "react-hot-toast";
 import {getAllCategories} from "@/services/axios/category";
 import {getAllDoctors} from "@/services/axios/doctor";
+import Spinner from "@/components/commonComponents/Spinner";
 
 export default function CreateAppointmentPopUp({setOpenPopUp,isEdit,setChange}: { setOpenPopUp: any,isEdit:any,setChange:any }) {
     const [open, setOpen] = useState(true)
+    const [isLoading, setIsLoading] = useState(false)
     const [categories, setCategories] = useState([])
     const [doctors, setDoctors] = useState([])
 
@@ -65,10 +67,12 @@ export default function CreateAppointmentPopUp({setOpenPopUp,isEdit,setChange}: 
     const onSubmit = async () =>{
         try {
             if(typeof window !== 'undefined') {
+                setIsLoading(true)
                 const userId = localStorage.getItem('_id')
                 await createAppointment(userId || "", name, notes, category, date, doctor)
                 toast.success('Appointment success')
                 setChange(true)
+                setIsLoading(false)
                 setOpenPopUp(false)
             }
         }catch (e) {
@@ -160,7 +164,9 @@ export default function CreateAppointmentPopUp({setOpenPopUp,isEdit,setChange}: 
                                         className="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:ml-3 sm:w-auto"
                                         onClick={() => onSubmit()}
                                     >
-                                        Save {isEdit ? 'Changes' :''}
+                                        {
+                                            isLoading ? <Spinner/> : isEdit ? 'Save Changes ' : 'Save'
+                                        }
                                     </button>
                                     <button
                                         type="button"

@@ -1,4 +1,4 @@
-import AdminUsers from '../../components/templates/adminUsers/index.tsx';
+import AdminUsers from '../../../components/templates/admin/users/index'
 
 export default async function Page() {
     return <div>
