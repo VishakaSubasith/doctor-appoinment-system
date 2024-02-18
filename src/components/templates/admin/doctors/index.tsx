@@ -16,7 +16,6 @@ const Doctors = () => {
     setLoader(true);
     try {
       const result = await getAllDoctors(); // Assuming getAllAppointments is an asynchronous function that fetches appointments
-      console.log('Doc res', result);
       setAppointments(
         result?.content?.map(
           (doctor: { username: string; email: string; contactno: string; address: string }) => {

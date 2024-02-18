@@ -51,7 +51,6 @@ export default function CreateAppointmentPopUp({setOpenPopUp,isEdit,setChange}: 
             try {
                 const result = await getAllCategories();
                 const doctors = await getAllDoctors();
-                console.log(result);
                 setCategories(result?.content);
                 setDoctors(doctors.content);
                 setCategory(result.content[0]._id);

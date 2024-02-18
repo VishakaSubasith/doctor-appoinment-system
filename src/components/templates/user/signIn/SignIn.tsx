@@ -30,7 +30,6 @@ const SignIn = () => {
         }
         setIsLoading(true)
         const result = await signIn(email, password);
-        console.log("Resss", result);
         if (result.content) {
             if(result?.content?.userType === 'Admin') router.push('/admin')
             else router.push('/dashBoard')

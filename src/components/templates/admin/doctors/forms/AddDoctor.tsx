@@ -47,7 +47,6 @@ export default function AddDoctorPopup({
       try {
         const result = await getAllCategories();
         const doctors = await getAllDoctors();
-        console.log(result);
         setCategories(result?.content);
         setDoctors(doctors.content);
         setCategory(result.content[0]._id);
@@ -62,7 +61,6 @@ export default function AddDoctorPopup({
 
   const onSubmit = async () => {
     try {
-      console.log('DoctorInputs', doctorInputs);
       if (!doctorInputs) return;
       await signUp(
         doctorInputs.username,

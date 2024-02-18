@@ -52,11 +52,9 @@ const SignUp = () =>{
         try {
             setIsLoading(true)
             const result = await signUp(username,address,mobile,gender,userType,email,password);
-            console.log("result",result)
             router.push('/user/signIn')
             toast.success("Registration Successful")
         }catch (e) {
-            console.log(e)
             toast.error('Something went wrong while registration')
         }
         setIsLoading(false)

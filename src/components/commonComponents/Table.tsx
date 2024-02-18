@@ -1,5 +1,4 @@
 const Table = ({setOpenDeletePopUp,columns,data}:{setOpenDeletePopUp:any,columns:string[],data:any}) =>{
-    console.log("data===",data)
     return (
 
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">

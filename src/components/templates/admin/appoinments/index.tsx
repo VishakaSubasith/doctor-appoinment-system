@@ -14,7 +14,6 @@ const Appoinments = () => {
             try {
                 setLoader(true);
                 const result = await getAllAppointments(); // Assuming getAllAppointments is an asynchronous function that fetches appointments
-                console.log(result);
                 setAppointments(result?.content);
                 setLoader(false);
             } catch (error) {

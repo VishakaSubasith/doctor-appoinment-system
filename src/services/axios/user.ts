@@ -4,7 +4,6 @@ const signIn = async (email: string , password: string) => {
     try {
         const response = await axiosService.post(`user/login`,{email:email,password:password});
 
-        console.log(response.data)
         if (window) {
             localStorage.setItem('_id', response.data.content._id)
             localStorage.setItem('userName', response.data.content.username)
@@ -12,7 +11,6 @@ const signIn = async (email: string , password: string) => {
         }
         return response.data;
     } catch (e: any) {
-        console.log(e)
         throw e.response;
     }
 };

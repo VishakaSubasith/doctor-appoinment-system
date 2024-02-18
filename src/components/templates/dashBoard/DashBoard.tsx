@@ -21,7 +21,6 @@ const DashBoard =() =>{
         const fetchAppointments = async () => {
             try {
                 const result = await getAllAppointments(); // Assuming getAllAppointments is an asynchronous function that fetches appointments
-                console.log(result);
                 setAppointments(result?.content);
             } catch (error) {
                 console.error("Error fetching appointments:", error);
